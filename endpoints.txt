@@ -1,0 +1,76 @@
+--- Endpoints API Trading Bot ---
+
+1) POST /api/indicators/ema
+   Descripción: Calcula el indicador EMA (Media Móvil Exponencial) para un activo.
+   REQUEST:
+   {
+     "asset": "XAUUSD",
+     "periods": 30,
+     "timeframe": "1h"
+   }
+   RESPONSE:
+   {
+     "id": 1,
+     "asset": "XAUUSD",
+     "ema30": 1910.78,
+     "timestamp": "2025-11-24T12:10:09"
+   }
+
+2) POST /api/trades/create
+   Descripción: Crea una nueva operación de trading para el activo indicado.
+   REQUEST:
+   {
+     "asset": "XAUUSD",
+     "type": "BUY",
+     "entryPrice": 1910.00,
+     "quantity": 2,
+     "indicators": "EMA,SAR,Fibonacci"
+   }
+   RESPONSE:
+   {
+     "id": 1,
+     "asset": "XAUUSD",
+     "type": "BUY",
+     "entryPrice": 1910.00,
+     "exitPrice": null,
+     "quantity": 2,
+     "status": "OPEN",
+     "entryTime": "2025-11-24T12:12:30",
+     "indicators": "EMA,SAR,Fibonacci",
+     "profitLoss": null
+   }
+
+3) PUT /api/trades/{id}/close?exitPrice=1932.00
+   Descripción: Cierra una operación de trading indicando el precio de salida.
+   REQUEST:
+   Sin body, usa parámetro query: exitPrice
+   RESPONSE:
+   {
+     "id": 1,
+     "asset": "XAUUSD",
+     "type": "BUY",
+     "entryPrice": 1910.00,
+     "exitPrice": 1932.00,
+     "quantity": 2,
+     "status": "CLOSED",
+     "entryTime": "2025-11-24T12:12:30",
+     "exitTime": "2025-11-24T12:15:43",
+     "indicators": "EMA,SAR,Fibonacci",
+     "profitLoss": 44.0
+   }
+
+4) GET /api/indicators/{asset}
+   Descripción: Consulta los indicadores almacenados para el activo seleccionado.
+   REQUEST:
+   Sin body.
+   RESPONSE:
+   [
+     {
+       "id": 1,
+       "asset": "XAUUSD",
+       "ema30": 1910.78,
+       "sar": null,
+       "fibonacciLevel": null,
+       "timestamp": "2025-11-24T12:10:09"
+     }
+   ]
